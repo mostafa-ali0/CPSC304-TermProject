@@ -16,7 +16,7 @@ router.get('/check-db-connection', async (req, res) => {
 });
 
 router.get('/demotable', async (req, res) => {
-    const tableContent = await appService.fetchDemotableFromDb();
+    const tableContent = await appService.fetchLanguagetableFromDb();
     res.json({data: tableContent});
 });
 

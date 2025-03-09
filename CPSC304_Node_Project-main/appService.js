@@ -76,9 +76,9 @@ async function testOracleConnection() {
     });
 }
 
-async function fetchDemotableFromDb() {
+async function fetchLanguagetableFromDb() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT * FROM DEMOTABLE');
+        const result = await connection.execute('SELECT * FROM Language');
         return result.rows;
     }).catch(() => {
         return [];
@@ -144,7 +144,7 @@ async function countDemotable() {
 
 module.exports = {
     testOracleConnection,
-    fetchDemotableFromDb,
+    fetchLanguagetableFromDb,
     initiateDemotable, 
     insertDemotable, 
     updateNameDemotable, 
