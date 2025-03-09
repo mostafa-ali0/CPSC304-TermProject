@@ -19,3 +19,6 @@ Thumbs.db
 
 # Windows shortcuts
 *.lnk
+
+#Ignore .env, so individual env vars not changed
+.env
