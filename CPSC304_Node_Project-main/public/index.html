@@ -67,10 +67,15 @@
 
     <br><hr><br> <!-- ========================================================================= -->
 
-    <h2>Count the Tuples in DemoTable</h2>
-    <button id="countDemotable"> count </button> <br><br>
-    <!-- A placeholder to display the count result. -->
-    <div id="countResultMsg"></div> <br>
+    <h2>Delete Name in Language Table</h2>
+    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+    <form id="deleteLanguage">
+        Name: <input type="text" id="inputName" placeholder="Enter Old Name" required> <br><br>
+
+        <button type="submit"> delete </button> <br>
+    </form>
+    <!-- A placeholder to display messages related to the update operation. -->
+    <div id="deleteResultMsg"></div>
 
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->

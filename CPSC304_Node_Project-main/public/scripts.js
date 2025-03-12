@@ -140,19 +140,28 @@ async function updateNameLanguage(event) {
 
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
-async function countDemotable() {
-    const response = await fetch("/count-demotable", {
-        method: 'GET'
+async function deleteLanguage(event) {
+    event.preventDefault();
+
+    const inputName = document.getElementById('inputName').value;
+    const response = await fetch("/delete-language", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            inputName: inputName
+        })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('countResultMsg');
+    const messageElement = document.getElementById('deleteResultMsg');
 
     if (responseData.success) {
-        const tupleCount = responseData.count;
-        messageElement.textContent = `The number of tuples in demotable: ${tupleCount}`;
+        messageElement.textContent = "Language deleted successfully!";
+        fetchTableData();
     } else {
-        alert("Error in count demotable!");
+        messageElement.textContent = "Error deleting language!";
     }
 }
 
@@ -165,7 +174,7 @@ window.onload = function() {
     fetchTableData();
     document.getElementById("insertLanguage").addEventListener("submit", insertLanguage);
     document.getElementById("updataNameLanguage").addEventListener("submit", updateNameLanguage);
-    document.getElementById("countDemotable").addEventListener("click", countDemotable);
+    document.getElementById("deleteLanguage").addEventListener("submit", deleteLanguage);
 };
 
 // General function to refresh the displayed table data. 

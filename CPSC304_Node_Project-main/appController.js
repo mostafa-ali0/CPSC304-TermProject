@@ -49,18 +49,13 @@ router.post("/update-name-language", async (req, res) => {
     }
 });
 
-router.get('/count-demotable', async (req, res) => {
-    const tableCount = await appService.countDemotable();
-    if (tableCount >= 0) {
-        res.json({ 
-            success: true,  
-            count: tableCount
-        });
+router.post('/delete-language', async (req, res) => {
+    const { inputName } = req.body;
+    const deleteResult = await appService.deleteLanguage(inputName);
+    if (deleteResult) {
+        res.json({ success: true });
     } else {
-        res.status(500).json({ 
-            success: false, 
-            count: tableCount
-        });
+        res.status(500).json({ success: false });
     }
 });
 

@@ -132,12 +132,15 @@ async function updateNameLanguage(oldName, newName) {
     });
 }
 
-async function countDemotable() {
+async function deleteLanguage(inputName) {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
-        return result.rows[0][0];
+        const result = await connection.execute(`DELETE FROM Language WHERE Name=:inputName`,
+        [inputName],
+        { autoCommit: true }
+        );
+        return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
-        return -1;
+        return false;
     });
 }
 
@@ -147,5 +150,5 @@ module.exports = {
     initiateDemotable, 
     insertLanguage, 
     updateNameLanguage, 
-    countDemotable
+    deleteLanguage
 };
