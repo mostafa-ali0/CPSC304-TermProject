@@ -38,10 +38,10 @@ async function checkDbConnection() {
 
 // Fetches data from the demotable and displays it.
 async function fetchAndDisplayUsers() {
-    const tableElement = document.getElementById('demotable');
+    const tableElement = document.getElementById('languagetable');
     const tableBody = tableElement.querySelector('tbody');
 
-    const response = await fetch('/demotable', {
+    const response = await fetch('/languagetable', {
         method: 'GET'
     });
 
@@ -79,20 +79,22 @@ async function resetDemotable() {
 }
 
 // Inserts new records into the demotable.
-async function insertDemotable(event) {
+async function insertLanguage(event) {
     event.preventDefault();
 
-    const idValue = document.getElementById('insertId').value;
     const nameValue = document.getElementById('insertName').value;
+    const statusValue = document.getElementById('insertStatus').value;
+    const familyNameValue = document.getElementById('insertFamilyName').value;
 
-    const response = await fetch('/insert-demotable', {
+    const response = await fetch('/insert-language', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            id: idValue,
-            name: nameValue
+            Name: nameValue,
+            Status: statusValue,
+            FamilyName: familyNameValue
         })
     });
 
@@ -108,13 +110,13 @@ async function insertDemotable(event) {
 }
 
 // Updates names in the demotable.
-async function updateNameDemotable(event) {
+async function updateNameLanguage(event) {
     event.preventDefault();
 
     const oldNameValue = document.getElementById('updateOldName').value;
     const newNameValue = document.getElementById('updateNewName').value;
 
-    const response = await fetch('/update-name-demotable', {
+    const response = await fetch('/update-name-language', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -138,19 +140,28 @@ async function updateNameDemotable(event) {
 
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
-async function countDemotable() {
-    const response = await fetch("/count-demotable", {
-        method: 'GET'
+async function deleteLanguage(event) {
+    event.preventDefault();
+
+    const inputName = document.getElementById('inputName').value;
+    const response = await fetch("/delete-language", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            inputName: inputName
+        })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('countResultMsg');
+    const messageElement = document.getElementById('deleteResultMsg');
 
     if (responseData.success) {
-        const tupleCount = responseData.count;
-        messageElement.textContent = `The number of tuples in demotable: ${tupleCount}`;
+        messageElement.textContent = "Language deleted successfully!";
+        fetchTableData();
     } else {
-        alert("Error in count demotable!");
+        messageElement.textContent = "Error deleting language!";
     }
 }
 
@@ -161,10 +172,9 @@ async function countDemotable() {
 window.onload = function() {
     checkDbConnection();
     fetchTableData();
-    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
-    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
-    document.getElementById("countDemotable").addEventListener("click", countDemotable);
+    document.getElementById("insertLanguage").addEventListener("submit", insertLanguage);
+    document.getElementById("updataNameLanguage").addEventListener("submit", updateNameLanguage);
+    document.getElementById("deleteLanguage").addEventListener("submit", deleteLanguage);
 };
 
 // General function to refresh the displayed table data. 

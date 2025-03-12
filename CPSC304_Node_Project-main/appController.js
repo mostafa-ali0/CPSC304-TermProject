@@ -15,7 +15,7 @@ router.get('/check-db-connection', async (req, res) => {
     }
 });
 
-router.get('/demotable', async (req, res) => {
+router.get('/languagetable', async (req, res) => {
     const tableContent = await appService.fetchLanguagetableFromDb();
     res.json({data: tableContent});
 });
@@ -29,9 +29,9 @@ router.post("/initiate-demotable", async (req, res) => {
     }
 });
 
-router.post("/insert-demotable", async (req, res) => {
-    const { id, name } = req.body;
-    const insertResult = await appService.insertDemotable(id, name);
+router.post("/insert-language", async (req, res) => {
+    const { Name, Status, FamilyName } = req.body;
+    const insertResult = await appService.insertLanguage(Name, Status, FamilyName);
     if (insertResult) {
         res.json({ success: true });
     } else {
@@ -39,9 +39,9 @@ router.post("/insert-demotable", async (req, res) => {
     }
 });
 
-router.post("/update-name-demotable", async (req, res) => {
+router.post("/update-name-language", async (req, res) => {
     const { oldName, newName } = req.body;
-    const updateResult = await appService.updateNameDemotable(oldName, newName);
+    const updateResult = await appService.updateNameLanguage(oldName, newName);
     if (updateResult) {
         res.json({ success: true });
     } else {
@@ -49,18 +49,13 @@ router.post("/update-name-demotable", async (req, res) => {
     }
 });
 
-router.get('/count-demotable', async (req, res) => {
-    const tableCount = await appService.countDemotable();
-    if (tableCount >= 0) {
-        res.json({ 
-            success: true,  
-            count: tableCount
-        });
+router.post('/delete-language', async (req, res) => {
+    const { inputName } = req.body;
+    const deleteResult = await appService.deleteLanguage(inputName);
+    if (deleteResult) {
+        res.json({ success: true });
     } else {
-        res.status(500).json({ 
-            success: false, 
-            count: tableCount
-        });
+        res.status(500).json({ success: false });
     }
 });
 
