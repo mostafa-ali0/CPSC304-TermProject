@@ -94,7 +94,7 @@ CREATE TABLE SpokenBy (
     LanguageName VARCHAR2(255),
     PRIMARY KEY (SpeakerID, DialectName, LanguageName),
     FOREIGN KEY (SpeakerID) REFERENCES Speaker(ID),
-    FOREIGN KEY (DialectName, LanguageName) REFERENCES Dialect(Name, LanguageName)
+    FOREIGN KEY (DialectName, LanguageName) REFERENCES Dialect(Name, LanguageName)  ON DELETE CASCADE
 );
 
 CREATE TABLE SpokenIn (
@@ -103,7 +103,7 @@ CREATE TABLE SpokenIn (
     LanguageName VARCHAR2(255),
     PRIMARY KEY (CountryName, DialectName, LanguageName),
     FOREIGN KEY (CountryName) REFERENCES Country(Name),
-    FOREIGN KEY (DialectName, LanguageName) REFERENCES Dialect(Name, LanguageName)
+    FOREIGN KEY (DialectName, LanguageName) REFERENCES Dialect(Name, LanguageName) ON DELETE CASCADE
 );
 
 CREATE TABLE Defines (
@@ -112,7 +112,7 @@ CREATE TABLE Defines (
     LanguageName VARCHAR2(255),
     PRIMARY KEY (WordID, DialectName, LanguageName),
     FOREIGN KEY (WordID) REFERENCES Word(ID),
-    FOREIGN KEY (DialectName, LanguageName) REFERENCES Dialect(Name, LanguageName)
+    FOREIGN KEY (DialectName, LanguageName) REFERENCES Dialect(Name, LanguageName) ON DELETE CASCADE
 );
 
 -- 3. Create tables for phonetic data
