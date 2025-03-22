@@ -118,17 +118,32 @@ async function insertLanguage(Name, Status, FamilyName) {
     });
 }
 
-async function updateNameLanguage(oldName, newName) {
+async function updateNameLanguage(oldName, newStatus, newFamily) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE Language SET Name=:newName where Name=:oldName`,
-            [newName, oldName],
+            `UPDATE Language SET Status=:newStatus, FamilyName=:newFamily where Name=:oldName`,
+            {
+                newStatus: newStatus, 
+                newFamily: newFamily, 
+                oldName: oldName 
+            },
             { autoCommit: true }
         );
 
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
+    });
+}
+
+async function getNameLanguage(oldName) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT Status, FamilyName FROM Language WHERE Name=:oldName',
+        [oldName]
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
     });
 }
 
@@ -150,5 +165,6 @@ module.exports = {
     initiateDemotable, 
     insertLanguage, 
     updateNameLanguage, 
+    getNameLanguage, 
     deleteLanguage
 };

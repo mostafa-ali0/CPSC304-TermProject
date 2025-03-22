@@ -114,7 +114,8 @@ async function updateNameLanguage(event) {
     event.preventDefault();
 
     const oldNameValue = document.getElementById('updateOldName').value;
-    const newNameValue = document.getElementById('updateNewName').value;
+    const newStatusValue = document.getElementById('updateNewStatus').value;
+    const newFamilyValue = document.getElementById('updateNewFamily').value;
 
     const response = await fetch('/update-name-language', {
         method: 'POST',
@@ -123,7 +124,8 @@ async function updateNameLanguage(event) {
         },
         body: JSON.stringify({
             oldName: oldNameValue,
-            newName: newNameValue
+            newStatus: newStatusValue,
+            newFamily: newFamilyValue
         })
     });
 

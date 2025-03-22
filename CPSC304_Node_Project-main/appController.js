@@ -40,10 +40,24 @@ router.post("/insert-language", async (req, res) => {
 });
 
 router.post("/update-name-language", async (req, res) => {
-    const { oldName, newName } = req.body;
-    const updateResult = await appService.updateNameLanguage(oldName, newName);
-    if (updateResult) {
-        res.json({ success: true });
+    const { oldName, newStatus, newFamily } = req.body;
+    const currentResult = await appService.getNameLanguage(oldName);
+    if (currentResult.length > 0) {
+        var inputStatus = newStatus;
+        var inputFamily = newFamily;
+        if (!newStatus) {
+            console.log(currentResult[0][0]);
+            inputStatus = currentResult[0][0];
+        }
+        if (!newFamily) {
+            inputFamily = currentResult[0][1];
+        }
+        const updateResult = await appService.updateNameLanguage(oldName, inputStatus, inputFamily);
+        if (updateResult) {
+            res.json({ success: true });
+        } else {
+            res.status(500).json({ success: false });
+        }
     } else {
         res.status(500).json({ success: false });
     }

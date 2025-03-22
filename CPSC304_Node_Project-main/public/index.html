@@ -54,11 +54,13 @@
 
     <br><hr><br> <!-- ========================================================================= -->
 
-    <h2>Update Name in Language Table</h2>
+    <h2>Update Language</h2>
     <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+    <p>Leave the status or family fields blank to keep the values the same</p>
     <form id="updataNameLanguage">
-        Old Name: <input type="text" id="updateOldName" placeholder="Enter Old Name" required> <br><br>
-        New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20"> <br><br>
+        Name: <input type="text" id="updateOldName" placeholder="Enter Old Name" required> <br><br>
+        New Status: <input type="text" id="updateNewStatus" placeholder="Enter New Status" maxlength="20"> <br><br>
+        New Family: <input type="text" id="updateNewFamily" placeholder="Enter New Family" maxlength="20"> <br><br>
 
         <button type="submit"> update </button> <br>
     </form>
