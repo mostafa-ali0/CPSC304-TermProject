@@ -69,7 +69,7 @@ CREATE TABLE Uses (
     LanguageName VARCHAR2(255),
     PRIMARY KEY (LanguageName, WSName),
     FOREIGN KEY (WSName) REFERENCES WritingSystem(Name),
-    FOREIGN KEY (LanguageName) REFERENCES Language(Name)
+    FOREIGN KEY (LanguageName) REFERENCES Language(Name) ON DELETE CASCADE
 );
 
 CREATE TABLE Dialect (
@@ -77,7 +77,7 @@ CREATE TABLE Dialect (
     LanguageName VARCHAR2(255),
     Population INTEGER,
     PRIMARY KEY (Name, LanguageName),
-    FOREIGN KEY (LanguageName) REFERENCES Language(Name)
+    FOREIGN KEY (LanguageName) REFERENCES Language(Name) ON DELETE CASCADE
 );
 
 CREATE TABLE IsFrom (
