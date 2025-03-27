@@ -3,6 +3,10 @@ const appService = require('./appService');
 
 const router = express.Router();
 
+router.get('/language/:name', (req, res) => {
+    res.sendFile(__dirname + '/public/language.html');
+});
+
 // ----------------------------------------------------------
 // API endpoints
 // Modify or extend these routes based on your project's needs.
@@ -17,6 +21,12 @@ router.get('/check-db-connection', async (req, res) => {
 
 router.get('/languagetable', async (req, res) => {
     const tableContent = await appService.fetchLanguagetableFromDb();
+    res.json({data: tableContent});
+});
+
+router.get('/languagespeakers', async (req, res) => {
+    const languageName = req.query.name;
+    const tableContent = await appService.fetchLanguageSpeakers(languageName);
     res.json({data: tableContent});
 });
 

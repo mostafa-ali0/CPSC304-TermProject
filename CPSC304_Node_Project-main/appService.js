@@ -147,6 +147,17 @@ async function getNameLanguage(oldName) {
     });
 }
 
+async function fetchLanguageSpeakers(languageName) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT Speaker.Name, Dialect.Name FROM Speaker, Dialect, SpokenBy WHERE Dialect.LanguageName=:languageName AND SpokenBy.SpeakerID = Speaker.ID AND Dialect.Name = SpokenBy.DialectName AND SpokenBy.LanguageName = Dialect.LanguageName',
+        [languageName]
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 async function deleteLanguage(inputName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`DELETE FROM Language WHERE Name=:inputName`,
@@ -166,5 +177,6 @@ module.exports = {
     insertLanguage, 
     updateNameLanguage, 
     getNameLanguage, 
-    deleteLanguage
+    deleteLanguage,
+    fetchLanguageSpeakers
 };
