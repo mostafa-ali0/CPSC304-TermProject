@@ -74,93 +74,30 @@ async function fetchAndDisplaySpeakers() {
     });
 }
 
-// Inserts new records into the demotable.
-async function insertLanguage(event) {
-    event.preventDefault();
-
-    const nameValue = document.getElementById('insertName').value;
-    const statusValue = document.getElementById('insertStatus').value;
-    const familyNameValue = document.getElementById('insertFamilyName').value;
-
-    const response = await fetch('/insert-language', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            Name: nameValue,
-            Status: statusValue,
-            FamilyName: familyNameValue
-        })
+async function fetchMaxSpeakers() {
+    const tableElement = document.getElementById('maxspeakertable');
+    const tableBody = tableElement.querySelector('tbody');
+    const pathSegments = window.location.pathname.split("/");
+    const languageName = decodeURIComponent(pathSegments[pathSegments.length - 1]);
+    const response = await fetch(`/max-lang-speakers?name=${encodeURIComponent(languageName)}`, {
+        method: 'GET'
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const demotableContent = responseData.data;
 
-    if (responseData.success) {
-        messageElement.textContent = "Data inserted successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error inserting data!";
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
     }
-}
 
-// Updates names in the demotable.
-async function updateNameLanguage(event) {
-    event.preventDefault();
-
-    const oldNameValue = document.getElementById('updateOldName').value;
-    const newStatusValue = document.getElementById('updateNewStatus').value;
-    const newFamilyValue = document.getElementById('updateNewFamily').value;
-
-    const response = await fetch('/update-name-language', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            oldName: oldNameValue,
-            newStatus: newStatusValue,
-            newFamily: newFamilyValue
-        })
+    demotableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
     });
-
-    const responseData = await response.json();
-    const messageElement = document.getElementById('updateNameResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Name updated successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error updating name!";
-    }
-}
-
-// Counts rows in the demotable.
-// Modify the function accordingly if using different aggregate functions or procedures.
-async function deleteLanguage(event) {
-    event.preventDefault();
-
-    const inputName = document.getElementById('inputName').value;
-    const response = await fetch("/delete-language", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            inputName: inputName
-        })
-    });
-
-    const responseData = await response.json();
-    const messageElement = document.getElementById('deleteResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Language deleted successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error deleting language!";
-    }
 }
 
 
@@ -171,6 +108,7 @@ window.onload = function() {
     displayLanguage();
     checkDbConnection();
     fetchTableData();
+    document.getElementById("generatebtn").addEventListener("click", fetchMaxSpeakers);
 };
 
 // General function to refresh the displayed table data. 

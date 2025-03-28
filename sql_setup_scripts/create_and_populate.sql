@@ -242,6 +242,7 @@ INSERT INTO Uses (LanguageName, WSName) VALUES ('Korean', 'Chinese');
 
 -- Dialect Table
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Canadian', 'French', 7700000);
+INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Metropolitan', 'French', 64000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Coastal', 'Swahili', 15000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Gulf', 'Arabic', 36000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Jeju', 'Korean', 5000);
@@ -251,12 +252,14 @@ INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Downriver', 'Halko
 
 -- SpokenBy Table
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (1, 'Canadian', 'English');
+INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (1, 'Canadian', 'French');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (2, 'Canadian', 'French');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (3, 'Gulf', 'Arabic');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (4, 'Jeju', 'Korean');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (5, 'Coastal', 'Swahili');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (6, 'Canadian', 'English');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (7, 'British', 'English');
+INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (7, 'Metropolitan', 'French');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (8, 'Gulf', 'Arabic');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (8, 'British', 'English');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (1, 'British', 'English');
