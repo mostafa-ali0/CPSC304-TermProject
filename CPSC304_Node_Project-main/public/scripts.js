@@ -57,7 +57,14 @@ async function fetchAndDisplayUsers() {
         const row = tableBody.insertRow();
         user.forEach((field, index) => {
             const cell = row.insertCell(index);
-            cell.textContent = field;
+            if (index == 0) {
+                var link = document.createElement("a");
+                link.setAttribute("href", `/language/${field}`);
+                cell.appendChild(link);
+                link.textContent = field;
+            } else {
+                cell.textContent = field;
+            }
         });
     });
 }
