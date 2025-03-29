@@ -40,6 +40,12 @@ router.get('/languagespeakers', async (req, res) => {
     res.json({data: tableContent});
 });
 
+router.get('/max-lang-speakers', async (req, res) => {
+    const languageName = req.query.name;
+    const tableContent = await appService.fetchMaxSpeakers(languageName);
+    res.json({data: tableContent});
+})
+
 router.post("/initiate-demotable", async (req, res) => {
     const initiateResult = await appService.initiateDemotable();
     if (initiateResult) {

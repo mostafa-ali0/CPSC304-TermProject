@@ -163,6 +163,37 @@ async function fetchLanguageSpeakers(languageName) {
     });
 }
 
+async function fetchMaxSpeakers(languageName) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`SELECT IsFrom.CountryName, COUNT(*) AS SpeakerCount
+     FROM Dialect
+     INNER JOIN SpokenBy ON SpokenBy.LanguageName = Dialect.LanguageName 
+                        AND SpokenBy.DialectName = Dialect.Name
+     INNER JOIN Speaker ON SpokenBy.SpeakerID = Speaker.ID
+     INNER JOIN IsFrom ON IsFrom.SpeakerID = Speaker.ID
+     WHERE Dialect.LanguageName = :languageName
+     GROUP BY IsFrom.CountryName
+     HAVING COUNT(*) = (
+         SELECT MAX(SpeakerCount)
+         FROM (
+             SELECT COUNT(*) AS SpeakerCount
+             FROM Dialect
+             INNER JOIN SpokenBy ON SpokenBy.LanguageName = Dialect.LanguageName 
+                                AND SpokenBy.DialectName = Dialect.Name
+             INNER JOIN Speaker ON SpokenBy.SpeakerID = Speaker.ID
+             INNER JOIN IsFrom ON IsFrom.SpeakerID = Speaker.ID
+             WHERE Dialect.LanguageName = :languageName
+             GROUP BY IsFrom.CountryName
+         )
+     )`,
+        [languageName]
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 async function deleteLanguage(inputName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`DELETE FROM Language WHERE Name=:inputName`,
