@@ -66,7 +66,60 @@ async function fetchAndDisplayUsers() {
                 cell.textContent = field;
             }
         });
+        row.insertCell(user.length);
     });
+
+    displayPopulationSum();
+}
+
+async function displayPopulationSum() {
+    const tableElement = document.getElementById('languagetable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/populationsum', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const populationContent = responseData.data;
+
+    const popMap = new Map();
+    populationContent.forEach(([language, total]) => {
+        popMap.set(language, total);
+    });
+
+    Array.from(tableBody.rows).forEach(row => {
+        const langName = row.cells[0].innerText;
+        const pop = popMap.get(langName) || 0;
+
+        if (row.cells.length < 4) {
+            const cell = row.insertCell(3);
+            cell.textContent = pop;
+        } else {
+            row.cells[3].textContent = pop;
+        }
+    });
+}
+
+async function displayAncientLanguages() {
+    const response = await fetch('/ancientlanguages', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const content = responseData.data;
+
+    let container = document.getElementById('ancientLangContainer');
+    const ul = document.createElement('ul');
+
+    content.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = Array.isArray(item) ? item.join(' - ') : item;
+        ul.appendChild(li);
+    });
+
+    container.appendChild(ul);
+    
 }
 
 // This function resets or initializes the demotable.
@@ -181,6 +234,7 @@ async function deleteLanguage(event) {
 window.onload = function() {
     checkDbConnection();
     fetchTableData();
+    displayAncientLanguages();
     document.getElementById("insertLanguage").addEventListener("submit", insertLanguage);
     document.getElementById("updataNameLanguage").addEventListener("submit", updateNameLanguage);
     document.getElementById("deleteLanguage").addEventListener("submit", deleteLanguage);
