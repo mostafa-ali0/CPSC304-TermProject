@@ -206,6 +206,34 @@ async function deleteLanguage(inputName) {
     });
 }
 
+async function getPopulationSum() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`SELECT Language.Name, SUM(Dialect.population)
+            FROM Language, Dialect 
+            WHERE Dialect.LanguageName=Language.name 
+            GROUP BY Language.Name`,
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function getAncientLanguages() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`SELECT Language.Name, MAX(WritingSystem.Age)
+            FROM Language, WritingSystem, Uses
+            WHERE Language.Name = Uses.LanguageName
+            AND WritingSystem.Name = Uses.WSName 
+            GROUP BY Language.Name
+            HAVING MAX(WritingSystem.Age) > 1000`,
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 module.exports = {
     testOracleConnection,
     fetchLanguagetableFromDb,
@@ -215,5 +243,7 @@ module.exports = {
     getNameLanguage, 
     deleteLanguage,
     fetchLanguageSpeakers,
+    getPopulationSum,
+    getAncientLanguages,
     fetchMaxSpeakers
 };

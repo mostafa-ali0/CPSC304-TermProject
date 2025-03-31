@@ -24,6 +24,16 @@ router.get('/languagetable', async (req, res) => {
     res.json({data: tableContent});
 });
 
+router.get('/populationsum', async (req, res) => {
+    const populationSum = await appService.getPopulationSum();
+    res.json({data: populationSum});
+});
+
+router.get('/ancientlanguages', async (req, res) => {
+    const ancientlanguages = await appService.getAncientLanguages();
+    res.json({data: ancientlanguages})
+});
+
 router.get('/languagespeakers', async (req, res) => {
     const languageName = req.query.name;
     const tableContent = await appService.fetchLanguageSpeakers(languageName);
