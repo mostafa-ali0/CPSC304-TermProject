@@ -163,6 +163,20 @@ async function fetchLanguageSpeakers(languageName) {
     });
 }
 
+async function fetchLanguageStatus(status) {
+    
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT Name, Status FROM LANGUAGE
+            WHERE Status =: status`,
+            [status]
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 async function fetchMaxSpeakers(languageName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`SELECT IsFrom.CountryName, COUNT(*) AS SpeakerCount
@@ -215,5 +229,6 @@ module.exports = {
     getNameLanguage, 
     deleteLanguage,
     fetchLanguageSpeakers,
-    fetchMaxSpeakers
+    fetchMaxSpeakers,
+    fetchLanguageStatus
 };

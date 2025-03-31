@@ -36,6 +36,17 @@ router.get('/max-lang-speakers', async (req, res) => {
     res.json({data: tableContent});
 })
 
+router.get('/language-status', async (req, res) => {
+    // const status = req.query.statusFilter;
+    const status = 'National';
+    const tableContent = await appService.fetchLanguageStatus(status);
+    if (tableContent) {
+        res.json({ data: tableContent })
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 router.post("/initiate-demotable", async (req, res) => {
     const initiateResult = await appService.initiateDemotable();
     if (initiateResult) {
