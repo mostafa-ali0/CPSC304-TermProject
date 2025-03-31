@@ -221,11 +221,12 @@ async function getPopulationSum() {
 
 async function getAncientLanguages() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute(`SELECT Language.Name, AVG(WritingSystem.age)
-            FROM Language, WritingSystem 
-            WHERE WritingSystem.LanguageName=Language.name 
+        const result = await connection.execute(`SELECT Language.Name, MAX(WritingSystem.Age)
+            FROM Language, WritingSystem, Uses
+            WHERE Language.Name = Uses.LanguageName
+            AND WritingSystem.Name = Uses.WSName 
             GROUP BY Language.Name
-            HAVING AVG(WritingSystem.age) > 1000`,
+            HAVING MAX(WritingSystem.Age) > 1000`,
         );
         return result.rows;
     }).catch(() => {
