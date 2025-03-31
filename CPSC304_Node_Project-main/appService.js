@@ -244,5 +244,6 @@ module.exports = {
     deleteLanguage,
     fetchLanguageSpeakers,
     getPopulationSum,
-    getAncientLanguages
+    getAncientLanguages,
+    fetchMaxSpeakers
 };
