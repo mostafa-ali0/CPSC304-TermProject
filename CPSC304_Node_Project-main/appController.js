@@ -47,8 +47,7 @@ router.get('/max-lang-speakers', async (req, res) => {
 })
 
 router.get('/language-status', async (req, res) => {
-    // const status = req.query.statusFilter;
-    const status = 'National';
+    const status = req.query.statusFilter;
     const tableContent = await appService.fetchLanguageStatus(status);
     if (tableContent) {
         res.json({ data: tableContent })

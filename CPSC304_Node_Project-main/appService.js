@@ -89,7 +89,7 @@ async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE DEMOTABLE`);
-        } catch(err) {
+        } catch (err) {
             console.log('Table might not exist, proceeding to create...');
         }
 
@@ -123,9 +123,9 @@ async function updateNameLanguage(oldName, newStatus, newFamily) {
         const result = await connection.execute(
             `UPDATE Language SET Status=:newStatus, FamilyName=:newFamily where Name=:oldName`,
             {
-                newStatus: newStatus, 
-                newFamily: newFamily, 
-                oldName: oldName 
+                newStatus: newStatus,
+                newFamily: newFamily,
+                oldName: oldName
             },
             { autoCommit: true }
         );
@@ -139,7 +139,7 @@ async function updateNameLanguage(oldName, newStatus, newFamily) {
 async function getNameLanguage(oldName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT Status, FamilyName FROM Language WHERE Name=:oldName',
-        [oldName]
+            [oldName]
         );
         return result.rows;
     }).catch(() => {
@@ -155,7 +155,7 @@ async function fetchLanguageSpeakers(languageName) {
             AND SpokenBy.SpeakerID = Speaker.ID 
             AND Dialect.Name = SpokenBy.DialectName 
             AND SpokenBy.LanguageName = Dialect.LanguageName`,
-        [languageName]
+            [languageName]
         );
         return result.rows;
     }).catch(() => {
@@ -164,7 +164,7 @@ async function fetchLanguageSpeakers(languageName) {
 }
 
 async function fetchLanguageStatus(status) {
-    
+
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `SELECT Name, Status FROM LANGUAGE
@@ -200,7 +200,7 @@ async function fetchMaxSpeakers(languageName) {
              GROUP BY IsFrom.CountryName
          )
      )`,
-        [languageName]
+            [languageName]
         );
         return result.rows;
     }).catch(() => {
@@ -211,8 +211,8 @@ async function fetchMaxSpeakers(languageName) {
 async function deleteLanguage(inputName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`DELETE FROM Language WHERE Name=:inputName`,
-        [inputName],
-        { autoCommit: true }
+            [inputName],
+            { autoCommit: true }
         );
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
@@ -251,10 +251,10 @@ async function getAncientLanguages() {
 module.exports = {
     testOracleConnection,
     fetchLanguagetableFromDb,
-    initiateDemotable, 
-    insertLanguage, 
-    updateNameLanguage, 
-    getNameLanguage, 
+    initiateDemotable,
+    insertLanguage,
+    updateNameLanguage,
+    getNameLanguage,
     deleteLanguage,
     fetchLanguageSpeakers,
     fetchMaxSpeakers,

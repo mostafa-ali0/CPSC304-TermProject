@@ -122,14 +122,16 @@ async function displayAncientLanguages() {
     
 }
 
-async function fetchAndDisplayLanguageStatus() {
+async function fetchAndDisplayLanguageStatus(event) {
     event.preventDefault();
 
     const tableElement = document.getElementById('languagestatus');
-    console.log(tableElement)
     const tableBody = tableElement.querySelector('tbody');
 
-    const response = await fetch('/language-status', {
+    const statusElement = document.getElementById('statusSelector');
+    const status = statusElement.value;
+
+    const response = await fetch(`/language-status?statusFilter=${status}`, {
         method: 'GET'
     });
 
