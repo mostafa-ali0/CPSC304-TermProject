@@ -149,7 +149,7 @@ CREATE TABLE Contains (
 
 -- INSERT statements
 -- Family Table
-INSERT INTO Family (Name, Origin) VALUES ('Indo-European', 'Pontic–Caspian steppe');
+INSERT INTO Family (Name, Origin) VALUES ('Indo-European', 'Pontic-Caspian steppe');
 INSERT INTO Family (Name, Origin) VALUES ('Afro-Asiatic', 'East Africa');
 INSERT INTO Family (Name, Origin) VALUES ('Niger-Congo', 'Savanna belt of West Africa');
 INSERT INTO Family (Name, Origin) VALUES ('Salish', 'Pacific Northwest');
@@ -195,6 +195,9 @@ INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (7, 'merci', 'thank you');
 INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (8, 'habari', 'news');
 INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (9, '네', 'yes');
 INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (10, 'شكرًا', 'thank you');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (11, 'érablière', 'maple grove');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (12, 'souper', 'dinner');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (13, 'toque', 'hat');
 
 -- Speaker Table
 INSERT INTO Speaker (ID, Name) VALUES (1, 'John Smith');
@@ -225,6 +228,7 @@ VALUES ('palatal', 1);
 -- Language Table
 INSERT INTO Language (Name, Status, FamilyName) VALUES ('English', 'International', 'Indo-European');
 INSERT INTO Language (Name, Status, FamilyName) VALUES ('French', 'International', 'Indo-European');
+INSERT INTO Language (Name, Status, FamilyName) VALUES ('German', 'International', 'Indo-European');
 INSERT INTO Language (Name, Status, FamilyName) VALUES ('Arabic', 'International', 'Afro-Asiatic');
 INSERT INTO Language (Name, Status, FamilyName) VALUES ('Swahili', 'National', 'Niger-Congo');
 INSERT INTO Language (Name, Status, FamilyName) VALUES ('Halkomelem', 'Moribund', 'Salish');
@@ -241,19 +245,23 @@ INSERT INTO Uses (LanguageName, WSName) VALUES ('Korean', 'Hangul');
 INSERT INTO Uses (LanguageName, WSName) VALUES ('Korean', 'Chinese');
 
 -- Dialect Table
-INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Canadian', 'French', 7700000);
+INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Quebecois', 'French', 7700000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Metropolitan', 'French', 64000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Coastal', 'Swahili', 15000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Gulf', 'Arabic', 36000000);
+INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Egyptian', 'Arabic', 40000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Jeju', 'Korean', 5000);
+INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Pyojuneo', 'Korean', 51000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Canadian', 'English', 30000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('British', 'English', 60000000);
 INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Downriver', 'Halkomelem', 4);
+INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Belgian', 'French', 4500000);
+INSERT INTO Dialect (Name, LanguageName, Population) VALUES ('Belgian', 'German', 77527);
 
 -- SpokenBy Table
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (1, 'Canadian', 'English');
-INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (1, 'Canadian', 'French');
-INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (2, 'Canadian', 'French');
+INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (1, 'Quebecois', 'French');
+INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (2, 'Quebecois', 'French');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (3, 'Gulf', 'Arabic');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (4, 'Jeju', 'Korean');
 INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (5, 'Coastal', 'Swahili');
@@ -269,8 +277,8 @@ INSERT INTO SpokenBy (SpeakerID, DialectName, LanguageName) VALUES (7, 'Coastal'
 
 -- SpokenIn Table
 INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('Canada', 'Canadian', 'English');
-INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('Canada', 'Canadian', 'French');
-INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('France', 'Canadian', 'French');
+INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('Canada', 'Quebecois', 'French');
+INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('France', 'Quebecois', 'French');
 INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('Kenya', 'Coastal', 'Swahili');
 INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('Democratic Republic of the Congo', 'Coastal', 'Swahili');
 INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('South Korea', 'Jeju', 'Korean');
@@ -279,16 +287,26 @@ INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('Canada', 
 INSERT INTO SpokenIn (CountryName, DialectName, LanguageName) VALUES ('United Kingdom', 'British', 'English');
 
 -- Defines Table
-INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (1, 'Canadian', 'French');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (1, 'Quebecois', 'French');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (1, 'Metropolitan', 'French');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (1, 'Belgian', 'French');
 INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (2, 'Canadian', 'English');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (2, 'British', 'English');
 INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (3, 'Coastal', 'Swahili');
 INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (4, 'Jeju', 'Korean');
 INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (5, 'Gulf', 'Arabic');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (5, 'Egyptian', 'Arabic');
 INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (6, 'Downriver', 'Halkomelem');
-INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (7, 'Canadian', 'French');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (7, 'Quebecois', 'French');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (7, 'Metropolitan', 'French');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (7, 'Belgian', 'French');
 INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (8, 'Coastal', 'Swahili');
 INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (9, 'Jeju', 'Korean');
 INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (10, 'Gulf', 'Arabic');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (10, 'Egyptian', 'Arabic');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (11, 'Quebecois', 'French');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (12, 'Belgian', 'French');
+INSERT INTO Defines (WordID, DialectName, LanguageName) VALUES (13, 'Canadian', 'English');
 
 -- IsFrom Table
 INSERT INTO IsFrom (SpeakerID, CountryName) 
