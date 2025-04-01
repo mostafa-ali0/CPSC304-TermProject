@@ -159,6 +159,25 @@ async function fetchAndDisplayLanguageStatus(event) {
     });
 }
 
+async function fetchPhonemeOptions(event) {
+    event.preventDefault();
+
+    const form = document.getElementById('phoneme-options-form');
+    const formData = new FormData(form);
+    const queryString = new URLSearchParams(formData).toString();
+
+
+    console.log("QueryString: ", queryString)
+    const response = await fetch(`/phoneme-options?${queryString}`, {
+        method: 'GET'
+    });
+
+    const responseData = await response.json()
+
+    console.log("This is the response ", response.body)
+
+}
+
 // This function resets or initializes the demotable.
 async function resetDemotable() {
     const response = await fetch("/initiate-demotable", {
@@ -276,6 +295,7 @@ window.onload = function() {
     document.getElementById("updataNameLanguage").addEventListener("submit", updateNameLanguage);
     document.getElementById("deleteLanguage").addEventListener("submit", deleteLanguage);
     document.getElementById("showlanguagestatus").addEventListener("submit", fetchAndDisplayLanguageStatus);
+    document.getElementById("phoneme-options-form").addEventListener("submit", fetchPhonemeOptions);
 };
 
 // General function to refresh the displayed table data. 

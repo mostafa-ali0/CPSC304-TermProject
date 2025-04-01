@@ -177,6 +177,36 @@ async function fetchLanguageStatus(status) {
     });
 }
 
+async function fetchPhonemeOptions(options) {
+    console.log("Options :", options)
+    const optionsFormatted = arraySplit(options[0]);
+    // const query = `SELECT ${optionsFormatted} FROM Phoneme
+    //         LEFT JOIN VOWEL ON VOWEL.IPANUMBER = Phoneme.IPANUMBER
+    //         LEFT JOIN CONSONANT ON CONSONANT.IPANUMBER = Phoneme.IPANUMBER;`
+
+    const query = `SELECT * FROM Phoneme
+            LEFT JOIN VOWEL ON VOWEL.IPANUMBER = Phoneme.IPANUMBER
+            LEFT JOIN CONSONANT ON CONSONANT.IPANUMBER = Phoneme.IPANUMBER;`
+
+    console.log("Query: ", query)
+
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            query
+        );
+
+        console.log("This is sql query result: ", result)
+
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+function arraySplit(arr) {
+    return arr.map(item => item.toUpperCase()).join(', ');
+}
+
 async function fetchMaxSpeakers(languageName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`SELECT IsFrom.CountryName, COUNT(*) AS SpeakerCount
@@ -260,5 +290,6 @@ module.exports = {
     fetchMaxSpeakers,
     fetchLanguageStatus,
     getPopulationSum,
-    getAncientLanguages
+    getAncientLanguages,
+    fetchPhonemeOptions
 };

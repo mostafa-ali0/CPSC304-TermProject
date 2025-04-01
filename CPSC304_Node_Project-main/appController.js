@@ -56,6 +56,20 @@ router.get('/language-status', async (req, res) => {
     }
 });
 
+router.get('/phoneme-options', async (req, res) => {
+    const selectedOptions = req.query.options;
+    const options = selectedOptions == undefined ? [] : Array(selectedOptions)
+
+    console.log("before options: ", options)
+    const tableContent = await appService.fetchPhonemeOptions(options);
+
+    if (tableContent) {
+        res.json({ data: tableContent })
+    } else {
+        res.status(500).json({ success: false });
+    }
+})
+
 router.post("/initiate-demotable", async (req, res) => {
     const initiateResult = await appService.initiateDemotable();
     if (initiateResult) {
