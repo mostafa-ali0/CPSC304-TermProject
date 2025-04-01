@@ -208,6 +208,29 @@ async function fetchMaxSpeakers(languageName) {
     });
 }
 
+async function fetchDefinedWords(languageName) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT Word.WRITTENFORM, Word.Meaning
+             FROM Word
+             WHERE NOT EXISTS (
+                 (SELECT Dialect.NAME, Dialect.LANGUAGENAME
+                  FROM DIALECT 
+                  WHERE Dialect.LANGUAGENAME = :languageName)
+                 MINUS
+                 (SELECT Defines.DIALECTNAME, Defines.LANGUAGENAME
+                  FROM DEFINES 
+                  WHERE Defines.WORDID = Word.ID
+                  AND Defines.LANGUAGENAME = :languageName)
+             )`,
+            [languageName]
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
 async function deleteLanguage(inputName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`DELETE FROM Language WHERE Name=:inputName`,
@@ -260,5 +283,6 @@ module.exports = {
     fetchMaxSpeakers,
     fetchLanguageStatus,
     getPopulationSum,
-    getAncientLanguages
+    getAncientLanguages,
+    fetchDefinedWords
 };

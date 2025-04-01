@@ -185,19 +185,19 @@ INSERT INTO Unicode (UnicodeID, UnicodeBlock) VALUES (652, 'Latin');
 INSERT INTO Unicode (UnicodeID, UnicodeBlock) VALUES (712, 'Arabic');
 
 -- Word Table
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (1, 'bonjour', 'hello');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (2, 'hello', 'greeting');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (3, 'salama', 'peace');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (4, '안녕', 'hello');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (5, 'مرحبا', 'hello');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (6, 'hən̓q̓', 'hello');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (7, 'merci', 'thank you');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (8, 'habari', 'news');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (9, '네', 'yes');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (10, 'شكرًا', 'thank you');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (11, 'érablière', 'maple grove');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (12, 'souper', 'dinner');
-INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (13, 'toque', 'hat');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (1, N'bonjour', 'hello');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (2, N'hello', 'greeting');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (3, N'salama', 'peace');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (4, N'안녕', 'hello');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (5, N'مرحبا', 'hello');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (6, N'hən̓q̓', 'hello');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (7, N'merci', 'thank you');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (8, N'habari', 'news');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (9, N'네', 'yes');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (10, N'شكرًا', 'thank you');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (11, N'érablière', 'maple grove');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (12, N'souper', 'dinner');
+INSERT INTO Word (ID, WrittenForm, Meaning) VALUES (13, N'toque', 'hat');
 
 -- Speaker Table
 INSERT INTO Speaker (ID, Name) VALUES (1, 'John Smith');
