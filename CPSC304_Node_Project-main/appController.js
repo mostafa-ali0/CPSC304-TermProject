@@ -46,6 +46,12 @@ router.get('/max-lang-speakers', async (req, res) => {
     res.json({data: tableContent});
 })
 
+router.get('/words-all-dialects', async (req, res) => {
+    const languageName = req.query.name;
+    const tableContent = await appService.fetchDefinedWords(languageName);
+    res.json({data: tableContent});
+})
+
 router.get('/language-status', async (req, res) => {
     // const status = req.query.statusFilter;
     const status = 'National';

@@ -100,6 +100,32 @@ async function fetchMaxSpeakers() {
     });
 }
 
+async function fetchDefinedWords() {
+    const tableElement = document.getElementById('definedWordTable');
+    const tableBody = tableElement.querySelector('tbody');
+    const pathSegments = window.location.pathname.split("/");
+    const languageName = decodeURIComponent(pathSegments[pathSegments.length - 1]);
+    const response = await fetch(`/words-all-dialects?name=${encodeURIComponent(languageName)}`, {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const demotableContent = responseData.data;
+
+    // Always clear old, already fetched data before new fetching process.
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    demotableContent.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -108,7 +134,8 @@ window.onload = function() {
     displayLanguage();
     checkDbConnection();
     fetchTableData();
-    document.getElementById("generatebtn").addEventListener("click", fetchMaxSpeakers);
+    document.getElementById("maxSpeakerShow").addEventListener("click", fetchMaxSpeakers);
+    document.getElementById("definedWordShow").addEventListener("click", fetchDefinedWords);
 };
 
 // General function to refresh the displayed table data. 
