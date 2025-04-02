@@ -180,13 +180,22 @@ async function fetchLanguageStatus(status) {
 async function fetchPhonemeOptions(options) {
     console.log("Options :", options)
     const optionsFormatted = arraySplit(options[0]);
-    // const query = `SELECT ${optionsFormatted} FROM Phoneme
-    //         LEFT JOIN VOWEL ON VOWEL.IPANUMBER = Phoneme.IPANUMBER
-    //         LEFT JOIN CONSONANT ON CONSONANT.IPANUMBER = Phoneme.IPANUMBER;`
-
-    const query = `SELECT * FROM Phoneme
+    let query;
+    if (optionsFormatted.length == 0) {
+        query = `
+        SELECT PHONEME.IPANUMBER, PHONEME.UNICODE, 
+        VOWEL.HEIGHT, VOWEL.BACKNESS, VOWEL.ROUNDED, 
+        CONSONANT.VOICED, CONSONANT.PLACE, CONSONANT.MANNER, 
+        PLACEINFO.CORONAL FROM Phoneme
             LEFT JOIN VOWEL ON VOWEL.IPANUMBER = Phoneme.IPANUMBER
-            LEFT JOIN CONSONANT ON CONSONANT.IPANUMBER = Phoneme.IPANUMBER;`
+            LEFT JOIN CONSONANT ON CONSONANT.IPANUMBER = Phoneme.IPANUMBER
+            LEFT JOIN PlaceInfo ON CONSONANT.Place = PlaceInfo.Place`
+    } else {
+        query = `SELECT PHONEME.IPANUMBER, ${optionsFormatted} FROM Phoneme
+                LEFT JOIN VOWEL ON VOWEL.IPANUMBER = Phoneme.IPANUMBER
+                LEFT JOIN CONSONANT ON CONSONANT.IPANUMBER = Phoneme.IPANUMBER
+                LEFT JOIN PlaceInfo ON CONSONANT.Place = PlaceInfo.Place`
+    }
 
     console.log("Query: ", query)
 
@@ -197,13 +206,14 @@ async function fetchPhonemeOptions(options) {
 
         console.log("This is sql query result: ", result)
 
-        return result.rows;
+        return result;
     }).catch(() => {
         return [];
     });
 }
 
 function arraySplit(arr) {
+    if (!arr) return []
     return arr.map(item => item.toUpperCase()).join(', ');
 }
 
