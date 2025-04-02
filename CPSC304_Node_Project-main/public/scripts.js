@@ -133,10 +133,12 @@ async function fetchAndDisplayLanguageStatus(event) {
     const tableElement = document.getElementById('languagestatus');
     const tableBody = tableElement.querySelector('tbody');
 
-    const statusElement = document.getElementById('statusSelector');
-    const status = statusElement.value;
+    const name = document.getElementById('lang-name').value;
+    const status = document.getElementById('statusSelector').value;
+    const ageComparator = document.getElementById('ageComparator').value;
+    const age = document.getElementById('ws-age').value;
 
-    const response = await fetch(`/language-status?statusFilter=${status}`, {
+    const response = await fetch(`/language-status?name=${name}&statusFilter=${status}&comparator=${ageComparator}&age=${age}`, {
         method: 'GET'
     });
 
@@ -172,14 +174,14 @@ async function fetchPhonemeOptions(event) {
     const queryString = new URLSearchParams(formData).toString();
 
 
-    console.log("QueryString: ", queryString)
+    // console.log("QueryString: ", queryString)
     const response = await fetch(`/phoneme-options?${queryString}`, {
         method: 'GET'
     });
 
     const responseData = await response.json()
 
-    console.log("This is the response ", response.body)
+    // console.log("This is the response ", response.body)
 
     const tableData = responseData.metaData ? responseData : responseData.data ? responseData.data : responseData;
 

@@ -54,7 +54,12 @@ router.get('/words-all-dialects', async (req, res) => {
 
 router.get('/language-status', async (req, res) => {
     const status = req.query.statusFilter;
-    const tableContent = await appService.fetchLanguageStatus(status);
+    const name = req.query.name;
+    const comparator = req.query.comparator;
+    const age = req.query.age;
+
+    // console.log('SERVER: ', status, name, comparator, age)
+    const tableContent = await appService.fetchLanguageStatus(status, name, comparator, age);
     if (tableContent) {
         res.json({ data: tableContent })
     } else {
@@ -66,7 +71,7 @@ router.get('/phoneme-options', async (req, res) => {
     const selectedOptions = req.query.options;
     const options = selectedOptions == undefined ? [] : Array(selectedOptions)
 
-    console.log("before options: ", options)
+    // console.log("before options: ", options)
     const tableContent = await appService.fetchPhonemeOptions(options);
 
     if (tableContent) {
@@ -102,7 +107,7 @@ router.post("/update-name-language", async (req, res) => {
         var inputStatus = newStatus;
         var inputFamily = newFamily;
         if (!newStatus) {
-            console.log(currentResult[0][0]);
+            // console.log(currentResult[0][0]);
             inputStatus = currentResult[0][0];
         }
         if (!newFamily) {
