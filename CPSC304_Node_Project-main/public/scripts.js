@@ -176,6 +176,42 @@ async function fetchPhonemeOptions(event) {
 
     console.log("This is the response ", response.body)
 
+    const tableData = responseData.metaData ? responseData : responseData.data ? responseData.data : responseData;
+
+    // Build the table and display it
+    const tableElement = buildTable(tableData);
+    const container = document.getElementById('phonemeOptions');
+    container.innerHTML = ''; // Clear previous table
+    container.appendChild(tableElement);
+}
+
+function buildTable(data) {
+
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+
+    data.metaData.forEach(col => {
+        const th = document.createElement('th');
+        th.textContent = col.name;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    data.rows.forEach(rowData => {
+        const tr = document.createElement('tr');
+        rowData.forEach(cellData => {
+            const td = document.createElement('td');
+            td.textContent = cellData !== null ? cellData : '-';
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    return table;
 }
 
 // This function resets or initializes the demotable.
