@@ -127,14 +127,16 @@ async function displayAncientLanguages() {
     
 }
 
-async function fetchAndDisplayLanguageStatus() {
+async function fetchAndDisplayLanguageStatus(event) {
     event.preventDefault();
 
     const tableElement = document.getElementById('languagestatus');
-    console.log(tableElement)
     const tableBody = tableElement.querySelector('tbody');
 
-    const response = await fetch('/language-status', {
+    const statusElement = document.getElementById('statusSelector');
+    const status = statusElement.value;
+
+    const response = await fetch(`/language-status?statusFilter=${status}`, {
         method: 'GET'
     });
 
@@ -160,6 +162,25 @@ async function fetchAndDisplayLanguageStatus() {
             }
         });
     });
+}
+
+async function fetchPhonemeOptions(event) {
+    event.preventDefault();
+
+    const form = document.getElementById('phoneme-options-form');
+    const formData = new FormData(form);
+    const queryString = new URLSearchParams(formData).toString();
+
+
+    console.log("QueryString: ", queryString)
+    const response = await fetch(`/phoneme-options?${queryString}`, {
+        method: 'GET'
+    });
+
+    const responseData = await response.json()
+
+    console.log("This is the response ", response.body)
+
 }
 
 // This function resets or initializes the demotable.
@@ -280,6 +301,7 @@ window.onload = function() {
     document.getElementById("showlanguagestatus").addEventListener("submit", fetchAndDisplayLanguageStatus);
     document.getElementById("calculatePop").addEventListener("click", displayPopulationSum);
     document.getElementById("showWS").addEventListener("click", displayAncientLanguages);
+    document.getElementById("phoneme-options-form").addEventListener("submit", fetchPhonemeOptions);
 };
 
 // General function to refresh the displayed table data. 

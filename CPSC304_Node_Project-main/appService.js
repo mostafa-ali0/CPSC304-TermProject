@@ -89,7 +89,7 @@ async function initiateDemotable() {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE DEMOTABLE`);
-        } catch(err) {
+        } catch (err) {
             console.log('Table might not exist, proceeding to create...');
         }
 
@@ -123,9 +123,9 @@ async function updateNameLanguage(oldName, newStatus, newFamily) {
         const result = await connection.execute(
             `UPDATE Language SET Status=:newStatus, FamilyName=:newFamily where Name=:oldName`,
             {
-                newStatus: newStatus, 
-                newFamily: newFamily, 
-                oldName: oldName 
+                newStatus: newStatus,
+                newFamily: newFamily,
+                oldName: oldName
             },
             { autoCommit: true }
         );
@@ -139,7 +139,7 @@ async function updateNameLanguage(oldName, newStatus, newFamily) {
 async function getNameLanguage(oldName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT Status, FamilyName FROM Language WHERE Name=:oldName',
-        [oldName]
+            [oldName]
         );
         return result.rows;
     }).catch(() => {
@@ -155,7 +155,7 @@ async function fetchLanguageSpeakers(languageName) {
             AND SpokenBy.SpeakerID = Speaker.ID 
             AND Dialect.Name = SpokenBy.DialectName 
             AND SpokenBy.LanguageName = Dialect.LanguageName`,
-        [languageName]
+            [languageName]
         );
         return result.rows;
     }).catch(() => {
@@ -164,7 +164,7 @@ async function fetchLanguageSpeakers(languageName) {
 }
 
 async function fetchLanguageStatus(status) {
-    
+
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `SELECT Name, Status FROM LANGUAGE
@@ -175,6 +175,36 @@ async function fetchLanguageStatus(status) {
     }).catch(() => {
         return [];
     });
+}
+
+async function fetchPhonemeOptions(options) {
+    console.log("Options :", options)
+    const optionsFormatted = arraySplit(options[0]);
+    // const query = `SELECT ${optionsFormatted} FROM Phoneme
+    //         LEFT JOIN VOWEL ON VOWEL.IPANUMBER = Phoneme.IPANUMBER
+    //         LEFT JOIN CONSONANT ON CONSONANT.IPANUMBER = Phoneme.IPANUMBER;`
+
+    const query = `SELECT * FROM Phoneme
+            LEFT JOIN VOWEL ON VOWEL.IPANUMBER = Phoneme.IPANUMBER
+            LEFT JOIN CONSONANT ON CONSONANT.IPANUMBER = Phoneme.IPANUMBER;`
+
+    console.log("Query: ", query)
+
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            query
+        );
+
+        console.log("This is sql query result: ", result)
+
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+function arraySplit(arr) {
+    return arr.map(item => item.toUpperCase()).join(', ');
 }
 
 async function fetchMaxSpeakers(languageName) {
@@ -200,7 +230,7 @@ async function fetchMaxSpeakers(languageName) {
              GROUP BY IsFrom.CountryName
          )
      )`,
-        [languageName]
+            [languageName]
         );
         return result.rows;
     }).catch(() => {
@@ -234,8 +264,8 @@ async function fetchDefinedWords(languageName) {
 async function deleteLanguage(inputName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`DELETE FROM Language WHERE Name=:inputName`,
-        [inputName],
-        { autoCommit: true }
+            [inputName],
+            { autoCommit: true }
         );
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
@@ -282,15 +312,16 @@ async function getAncientLanguages() {
 module.exports = {
     testOracleConnection,
     fetchLanguagetableFromDb,
-    initiateDemotable, 
-    insertLanguage, 
-    updateNameLanguage, 
-    getNameLanguage, 
+    initiateDemotable,
+    insertLanguage,
+    updateNameLanguage,
+    getNameLanguage,
     deleteLanguage,
     fetchLanguageSpeakers,
     fetchMaxSpeakers,
     fetchLanguageStatus,
     getPopulationSum,
     getAncientLanguages,
-    fetchDefinedWords
+    fetchDefinedWords,
+    fetchPhonemeOptions
 };
