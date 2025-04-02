@@ -183,10 +183,9 @@ async function fetchPhonemeOptions(event) {
 
     const tableData = responseData.metaData ? responseData : responseData.data ? responseData.data : responseData;
 
-    // Build the table and display it
     const tableElement = buildTable(tableData);
     const container = document.getElementById('phonemeOptions');
-    container.innerHTML = ''; // Clear previous table
+    container.innerHTML = '';
     container.appendChild(tableElement);
 }
 

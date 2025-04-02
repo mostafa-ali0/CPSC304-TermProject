@@ -178,7 +178,6 @@ async function fetchLanguageStatus(status) {
 }
 
 async function fetchPhonemeOptions(options) {
-    console.log("Options :", options)
     const optionsFormatted = arraySplit(options[0]);
     let query;
     if (optionsFormatted.length == 0) {
@@ -197,15 +196,10 @@ async function fetchPhonemeOptions(options) {
                 LEFT JOIN PlaceInfo ON CONSONANT.Place = PlaceInfo.Place`
     }
 
-    console.log("Query: ", query)
-
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             query
         );
-
-        console.log("This is sql query result: ", result)
-
         return result;
     }).catch(() => {
         return [];
