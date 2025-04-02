@@ -68,8 +68,6 @@ async function fetchAndDisplayUsers() {
         });
         row.insertCell(user.length);
     });
-
-    displayPopulationSum();
 }
 
 async function displayPopulationSum() {
@@ -102,6 +100,9 @@ async function displayPopulationSum() {
 }
 
 async function displayAncientLanguages() {
+    const tableElement = document.getElementById('WStable');
+    const tableBody = tableElement.querySelector('tbody');
+
     const response = await fetch('/ancientlanguages', {
         method: 'GET'
     });
@@ -109,16 +110,20 @@ async function displayAncientLanguages() {
     const responseData = await response.json();
     const content = responseData.data;
 
-    let container = document.getElementById('ancientLangContainer');
-    const ul = document.createElement('ul');
-
-    content.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = Array.isArray(item) ? item.join(' - ') : item;
-        ul.appendChild(li);
+    content.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            if (index == 0) {
+                var link = document.createElement("a");
+                link.setAttribute("href", `/language/${field}`);
+                cell.appendChild(link);
+                link.textContent = field;
+            } else {
+                cell.textContent = field;
+            }
+        });
     });
-
-    container.appendChild(ul);
     
 }
 
@@ -269,11 +274,12 @@ async function deleteLanguage(event) {
 window.onload = function() {
     checkDbConnection();
     fetchTableData();
-    displayAncientLanguages();
     document.getElementById("insertLanguage").addEventListener("submit", insertLanguage);
     document.getElementById("updataNameLanguage").addEventListener("submit", updateNameLanguage);
     document.getElementById("deleteLanguage").addEventListener("submit", deleteLanguage);
     document.getElementById("showlanguagestatus").addEventListener("submit", fetchAndDisplayLanguageStatus);
+    document.getElementById("calculatePop").addEventListener("click", displayPopulationSum);
+    document.getElementById("showWS").addEventListener("click", displayAncientLanguages);
 };
 
 // General function to refresh the displayed table data. 
