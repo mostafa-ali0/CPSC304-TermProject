@@ -60,7 +60,7 @@ CREATE TABLE PlaceInfo (
 CREATE TABLE Language (
     Name VARCHAR2(255) PRIMARY KEY,
     Status VARCHAR2(255),
-    FamilyName VARCHAR2(255),
+    FamilyName VARCHAR2(255) NOT NULL,
     FOREIGN KEY (FamilyName) REFERENCES Family(Name)
 );
 
@@ -74,7 +74,7 @@ CREATE TABLE Uses (
 
 CREATE TABLE Dialect (
     Name VARCHAR2(255),
-    LanguageName VARCHAR2(255),
+    LanguageName VARCHAR2(255) NOT NULL,
     Population INTEGER,
     PRIMARY KEY (Name, LanguageName),
     FOREIGN KEY (LanguageName) REFERENCES Language(Name) ON DELETE CASCADE
