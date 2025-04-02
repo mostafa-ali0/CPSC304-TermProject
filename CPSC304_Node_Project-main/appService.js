@@ -165,15 +165,20 @@ async function fetchLanguageSpeakers(languageName) {
 
 async function fetchLanguageStatus(status, name, comparator, age) {
 
+    const allowedComparators = new Set(["<", "<=", "=", ">=", ">"]);
+    if (!allowedComparators.has(comparator)) {
+        comparator = "=";
+    }
+
     const query = `Select l.Name, l.status, ws.name, ws.age from Language l
             JOIN Uses u ON u.LanguageName = l.Name
             JOIN WritingSystem ws ON u.WSName = ws.Name
-            WHERE l.Name LIKE '${name}'
-            AND l.Status= '${status}'
-            AND WS.age ${comparator} ${age}`
+            WHERE l.Name LIKE :name
+            AND l.Status= :status
+            AND WS.age ${comparator} :age`
 
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute(query);
+        const result = await connection.execute(query, [name, status, age]);
         return result.rows;
     }).catch(() => {
         return [];
