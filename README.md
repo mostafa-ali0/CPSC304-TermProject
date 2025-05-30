@@ -11,3 +11,21 @@ The project is a fieldwork tool for linguistics researchers, it allows them to v
 - View speakers of a language and which dialect they speak to determine who to study for research
 - View the country with the highest number of speakers on file to determine where to conduct research
 - View words in a language that are shared across all dialects for linguistic comparison
+
+
+## How to Run the Frontend
+
+1. **Navigate to the Project Directory:**
+
+   Ensure you are in the `project_j5v0v_r6y7o_y3x7z/CPSC304_Node_Project-main` directory.
+
+2. **Execute the Startup Script:**
+
+   Run the following command in your terminal:
+
+   ```bash
+   sh ./remote-start.sh
+   ```
+3. **Naviagate to link on browser**
+
+    `cmd + click` on the localhost link on terminal to open link on browser
